@@ -1,0 +1,77 @@
+---
+title: "HW2_台灣青少年每周在家上網平均時間"
+author: "| 09156203 薛威豪\n 09156227 趙肅衫"
+date: "12/24/2021"
+output: 
+  html_document:
+    highlight: tango
+---
+```{css, echo=FALSE}
+pre.r{
+  overflow: visible;
+}
+```
+### 題目：
+一個社會學會想估計台灣青少年每週在家上網平均的時間。由台灣青少年抽取一組隨機樣本，並得到以下結果：
+n=400(由台灣青少年抽出之樣本數)  
+x̄=57.7(每週在家裡上網的平均時間)  
+s=10(每週在家裡上網時間的標準差)  
+α=0.5  
+為台灣青少年每週在家上網確實的平均時間，建立一個95%的信賴區間。
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r cars, class.source=c("numcode","r","numberLines")}
+mean=57.7 #題目給的平均數
+s=10 #題目給的標準差
+n=400#題目給的樣本數
+width=qt(0.975,n-1)*s/sqrt(n) #計算95%信賴區間估計誤差的界線(bound on the error of estimation)
+
+#算出LCL
+LCL<-round(mean-width,2) #信賴區間下限(Lower confidence limit)
+LCL
+#算出UCL
+UCL<-round(mean+width,2) #信賴區間上限(Upper confidence limit)
+UCL
+#Answer
+cat("[",LCL,",",UCL,"]")
+
+#作圖
+plot(x=c(55,60), #畫出一個空白兩個維度的框架，x座標為55~60
+     y=c(0,100), #訂出y軸座標為0~100
+     type="n") #不畫任何點或線
+
+abline(v=mean, #畫出平均數位置的線
+       lty=2, #選擇虛線
+       col="red") #選擇紅色
+
+for(i in 1:100){
+  x=rnorm(n,mean,s) #隨機產生一組以(n,mean,s)為參數
+  
+  width=qt(0.975,n-1)*sd(x)/sqrt(n) #計算95%信賴區間估計誤差的界線(bound on the error of estimation)
+  
+  left=mean(x)-width #信賴區間下限(Lower confidence limit)
+  right=mean(x)+width #信賴區間上限(Upper confidence limit)
+  
+  if(mean>=left&&mean<=right){ #抽樣結果落在區域內
+    lines(c(left,right), #x軸位置連接上下限
+          c(i,i), #y軸位置連接上下限
+          lty=2) #選擇虛線
+  }else{ #抽樣結果不落在區域內
+    lines(c(left,right), #x軸位置連接上下限
+          c(i,i), #y軸位置連接上下限
+          lty=1, #選擇實線
+          lwd=2) #選擇兩倍線寬
+  }
+}
+```
+
+
+
+```{r pressure, echo=FALSE}
+
+```
+
+

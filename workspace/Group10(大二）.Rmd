@@ -1,0 +1,190 @@
+---
+title: "Group10-性別工作平等概況分析"
+author: "| 09156203 薛威豪\n| 09156218 蔡忠叡\n| 09156232 郭乃瑄\n 09156245 駱宣妤"
+date: "12/28/2021"
+output: 
+  html_document:
+    highlight: tango
+---
+```{css, echo=FALSE}
+pre.r{
+  overflow: visible;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(gganimate)
+library(gifski)
+library(readxl)
+library(lubridate)
+```
+
+
+
+```{r cars, class.source=c("numcode","r","numberLines")}
+##輸入各項資料
+##做成矩陣
+##ggplot做會動的長條圖
+
+x_01=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(69,38,25)
+                , years=rep('94',3))
+x_02=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(80,57,28)
+                , years=rep('95',3))
+x_03=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(104,43,16)
+                , years=rep('96',3))
+x_04=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(55,42,56)
+                , years=rep('97',3))
+x_05=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(140,80,34)
+                , years=rep('98',3))
+x_06=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(135,84,51)
+                , years=rep('99',3))
+x_07=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(151,115,28)
+                , years=rep('100',3))
+x_08=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(207,95,58)
+                , years=rep('101',3))
+x_09=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(145,103,47)
+                , years=rep('102',3))
+x_10=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(194,127,68)
+                , years=rep('103',3))
+x_11=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(187,156,90)
+                , years=rep('104',3))
+x_12=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(218,146,119)
+                , years=rep('105',3))
+x_13=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(214,146,135)
+                , years=rep('106',3))
+x_14=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(201,141,118)
+                , years=rep('107',3))
+x_15=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(170,153,100)
+                , years=rep('108',3))
+x_16=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(137,188,89)
+                , years=rep('109',3))
+x_bind=rbind(x_01,x_02,x_03,x_04,x_05,x_06,x_07,x_08,
+             x_09,x_10,x_11,x_12,x_13,x_14,x_15,x_16)
+
+
+
+Numbers_x <- c(as.character(x_01$Number),
+               as.character(x_02$Number),
+               as.character(x_03$Number),
+               as.character(x_04$Number),
+               as.character(x_05$Number),
+               as.character(x_06$Number),
+               as.character(x_07$Number),
+               as.character(x_08$Number),
+               as.character(x_09$Number),
+               as.character(x_10$Number),
+               as.character(x_11$Number),
+               as.character(x_12$Number),
+               as.character(x_13$Number),
+               as.character(x_14$Number),
+               as.character(x_15$Number),
+               as.character(x_16$Number))
+
+df_x <- data.frame(x_bind[, 1],x_bind[, 2], x_bind[, 3],Numbers_x)
+
+names(df_x) <- c("Levels", "Numbers", "Years", "Values")
+options("scipen"=100)
+# b <- ggplot(df_x, aes(x = Levels,y = Numbers, fill = "Levels")) +
+#   geom_bar(stat = "identity") +
+#   labs(title = "Year: {closest_state}") +
+#   geom_text(aes(label = Values, y = Numbers),
+#             position = position_dodge(0.9), vjust = -1 ) +
+#   theme(axis.text.x = element_text(size=12))+
+#   transition_states(states = Years, transition_length = 2, state_length = 1) +
+#   enter_fade() +
+#   exit_shrink() +
+#   ease_aes('sine-in-out')+
+#   theme(text=element_text(family='STSongti-TC-Regular'))
+# 
+# 
+# b_gif <- animate(b, width = 940, height = 480)
+# b_gif
+
+
+#從excel匯入檔案並做成矩陣
+#印出資料
+discrimination<-as.matrix(read_excel("/Users/weber/r workspace/file/group10_1.xlsx"))
+print(discrimination)
+
+#做性別歧視前三項目受理件數的折線圖
+#折線圖加上點座標及數字方便閱讀
+discrimination<-data.frame(discrimination[,1],discrimination[,2],
+                           discrimination[,3],discrimination[,4])
+names(discrimination)<-c("year","a","b","c")
+ggplot(discrimination,aes(x=year))+
+  geom_line(aes(y=a,colour="甄試、進用"),size=1)+
+  geom_point(aes(y=a),size=3,shape=21,fill="darkred")+
+  geom_text(aes(y=a,label=a),vjust=1.5,color="darkred")+
+  theme(text=element_text(family='STSongti-TC-Regular'))+
+  geom_line(aes(y=b,colour="資遣"),size=1)+
+  geom_point(aes(y=b),size=3,shape=21,fill="darkblue")+
+  geom_text(aes(y=b,label=b),vjust=1.5,color="darkblue")+
+  geom_line(aes(y=c,colour="離職及解僱"),size=1)+
+  geom_point(aes(y=c),size=3,shape=21,fill="darkgreen")+
+  geom_text(aes(y=c,label=c),vjust=1.5,color="darkgreen")+
+  scale_colour_manual(values=c("甄試、進用"="red","資遣"="blue","離職及解僱"="green"))+
+  labs(x="年份",y="件數",title="102~109年性別歧視前三項目受理件數")
+
+
+#從excel匯入檔案並做成矩陣
+#印出資料
+work<-as.matrix(read_excel("/Users/weber/r workspace/file/group10_2.xlsx"))
+print(work)
+
+#做工作平等措施前四項目受理件數的折線圖
+#折線圖加上點座標及數字方便閱讀
+work<-data.frame(work[,1],work[,2],work[,3],work[,4],work[,5])
+names(work)<-c("year","a","b","c","d")
+ggplot(work,aes(x=year))+
+  geom_line(aes(y=a,colour="生理假"),size=1)+
+  geom_point(aes(y=a),size=3,shape=21,fill="darkred")+
+  geom_text(aes(y=a,label=a),vjust=1,hjust=1.5,color="darkred")+
+  theme(text=element_text(family='STSongti-TC-Regular'))+
+  geom_line(aes(y=b,colour="產假"),size=1)+
+  geom_point(aes(y=b),size=3,shape=21,fill="darkblue")+
+  geom_text(aes(y=b,label=b),vjust=1.5,color="darkblue")+
+  geom_line(aes(y=c,colour="育嬰留職停薪"),size=1)+
+  geom_point(aes(y=c),size=3,shape=21,fill="darkgreen")+
+  geom_text(aes(y=c,label=c),vjust=1.5,color="darkgreen")+
+  geom_line(aes(y=d,colour="育嬰留職復職"),size=1)+
+  geom_point(aes(y=d),size=3,shape=21,fill="darkorange")+
+  geom_text(aes(y=d,label=d),vjust=1.5,color="darkorange")+
+  scale_colour_manual(values=c("生理假"="red","產假"="blue",
+                               "育嬰留職停薪"="green","育嬰留職復職"="orange"))+
+  labs(x="年份",y="件數",title="102~109年工作平等措施前四項目受理件數")
+
+
+year<-c("100","101","102","103","104","105","106","107","108","109")
+gap<-c("17.1","16.5","16.1","15.3","15","14.6","14.6","14.6","14.9","14.8")
+df_gap<-data.frame(year=year,gap=gap)
+ggplot(df_gap,aes(x=year,y=gap,group=1))+
+  geom_line()+
+  geom_point()+
+  geom_text(aes(label=gap),vjust=1.5)+
+  labs(x="年份",y="兩性薪資差距(%)",title="100~109年兩性薪資差距")+
+  theme(text=element_text(family='STSongti-TC-Regular'))
+```
+
+
+```{r pressure, echo=FALSE}
+
+```
+

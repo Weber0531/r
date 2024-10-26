@@ -1,0 +1,116 @@
+---
+title: "distribution"
+author: "09156203 薛威豪"
+date: "12/27/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(readxl)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+type<-c('蔡東穎','薛威豪','吳佩宸','蔡忠叡','趙肅衫')
+
+nums<-c(20,20,20,20,20)
+
+df<-data.frame(type=type,nums=nums)
+p<-ggplot(df,aes(x="",y=nums,fill=type))+geom_bar(
+  stat='identity',width=1,color="white")+coord_polar("y",start=0)+theme_void()+
+  theme(text=element_text(family='STSongti-TC-Regular'))+geom_text(aes(x=1.6,
+  label=nums),position=position_stack(vjust=0.5))+scale_fill_discrete(name="組員")
+p
+
+x_01=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(69,38,25)
+                , years=rep('94',3))
+x_02=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(80,57,28)
+                , years=rep('95',3))
+x_03=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(104,43,16)
+                , years=rep('96',3))
+x_04=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(55,42,56)
+                , years=rep('97',3))
+x_05=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(140,80,34)
+                , years=rep('98',3))
+x_06=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(135,84,51)
+                , years=rep('99',3))
+x_07=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(151,115,28)
+                , years=rep('100',3))
+x_08=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(207,95,58)
+                , years=rep('101',3))
+x_09=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(145,103,47)
+                , years=rep('102',3))
+x_10=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(194,127,68)
+                , years=rep('103',3))
+x_11=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(187,156,90)
+                , years=rep('104',3))
+x_12=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(218,146,119)
+                , years=rep('105',3))
+x_13=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(214,146,135)
+                , years=rep('106',3))
+x_14=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(201,141,118)
+                , years=rep('107',3))
+x_15=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(170,153,100)
+                , years=rep('108',3))
+x_16=data.frame(Level=c("性別歧視","性騷擾防治","工作平等措施")
+                , Number=c(137,188,89)
+                , years=rep('109',3))
+
+print(x_16)
+x_bind=rbind(x_01,x_02,x_03,x_04,x_05,x_06,x_07,x_08,
+             x_09,x_10,x_11,x_12,x_13,x_14,x_15,x_16)
+print(x_bind)
+index <- rep(1:16,each=3)
+print(index)
+Numbers_x <- c(as.character(x_01$Number),
+               as.character(x_02$Number),
+               as.character(x_03$Number),
+               as.character(x_04$Number),
+               as.character(x_05$Number),
+               as.character(x_06$Number),
+               as.character(x_07$Number),
+               as.character(x_08$Number),
+               as.character(x_09$Number),
+               as.character(x_10$Number),
+               as.character(x_11$Number),
+               as.character(x_12$Number),
+               as.character(x_13$Number),
+               as.character(x_14$Number),
+               as.character(x_15$Number),
+               as.character(x_16$Number))
+print(Numbers_x)
+df_x <- data.frame(index,x_bind[, 1],x_bind[, 2], x_bind[, 3],Numbers_x)
+print(df_x)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

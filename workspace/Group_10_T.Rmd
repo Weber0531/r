@@ -1,0 +1,166 @@
+---
+title: "T"
+author: "資一B 09156232 郭乃瑄"
+date: "2021/12/29"
+output:
+   html_document:
+     highlight: tango
+---
+
+```{css, echo=FALSE}
+pre.r {
+  overflow: visible;
+}
+```
+
+````{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r , class.source = c("numCode","r","numberLines")}
+year1 = c(101,102,103,104,105)
+year2 = c(106,107,108,109,110)
+man1 = c(1219,1355,1323,1379,1340)
+man2 = c(1338,1048,970,765,607)
+
+mean(man1)
+mean(man2)
+
+var(man1)
+var(man2)
+
+v1 <- (length(man1)-1)
+v2 <- (length(man2)-1)
+
+F <- var(man1)/var(man2)
+F
+
+var.test(man1,man2,ration = 1,alternative = c("two.sided","less","greater"),
+         conf.level = 0.95) #顯示F檢定結果
+# rejection region is F > 9.6045 or F < 0.1041
+print(qf(0.025,df1=v1,df2=v2)) #顯示查表結果
+print(qf(0.975,df1=v1,df2=v2)) #顯示查表結果
+
+# 0.048875 < 0.1041
+# reject H0 (變異數不相同)
+
+```
+##### 經過 F檢定之後，發現兩邊的母體變異數不相同，所以使用變異數不同的獨立雙樣本 t 檢定
+##### $$H0 : \left(\mu_1-\mu_2\right)=0$$
+##### $$H1 : \left(\mu_1-\mu_2\right)\neq0$$
+
+# 經過 F 檢定之後，發現兩邊的母體變異數不相同，所以使用變異數不同的獨立雙樣本 t 檢定，也就是將 t.test 函數的 var.equal 參數設定為 FALSE：
+```{r , class.source = c("numCode","r","numberLines")}
+
+t.test(man1,man2, var.equal = FALSE)#顯示查表結果
+
+
+a=(var(man1)/length(man1)+var(man2)/length(man2))^2
+a
+
+b=(var(man1)/length(man1))^2/(length(man1)-1)+(var(man2)/length(man2))^2/(length(man2)-1)
+
+v=a/b
+v #自由度
+
+# rejection region is t > 2.6818 or F < -2.6818
+print(qt(0.025,df=v))
+print(qt(0.975,df=v))
+
+# 2.9504 > 2.6818 ,reject H0
+
+
+```
+
+
+```{r , class.source = c("numCode","r","numberLines")}
+woman1 = c(70,75,64,61,72)
+woman2 = c(52,43,35,35,24)
+
+mean(woman1)
+mean(woman2)
+
+var(woman1)
+var(woman2)
+
+v1 <- (length(woman1)-1)
+v2 <- (length(woman2)-1)
+
+F <- var(woman1)/var(woman2)
+F
+
+var.test(woman1,woman2,ration = 1,alternative = c("two.sided","less","greater"),
+         conf.level = 0.95) #顯示F檢定結果
+# rejection region is F > 9.6045 or F < 0.1041
+print(qf(0.025,df1=v1,df2=v2)) #顯示查表結果
+print(qf(0.975,df1=v1,df2=v2)) #顯示查表結果
+
+#  0.1041 < 0.3063 < 9.6045
+# not reject H0 (變異數相同)
+```
+
+##### 經過 F檢定之後，發現兩邊的母體變異數相同，所以使用變異數相同的獨立雙樣本 t 檢定
+##### $$H0 : \left(\mu_1-\mu_2\right)=0$$
+##### $$H1 : \left(\mu_1-\mu_2\right)>0$$
+# 經過 F 檢定之後，發現兩邊的母體變異數相同，所以使用變異數相同的獨立雙樣本 t 檢定，也就是將 t.test 函數的 var.equal 參數設定為 TRUE：
+```{r , class.source = c("numCode","r","numberLines")}
+
+t.test(woman1,woman2, var.equal = TRUE)#顯示查表結果
+v = length(woman1)+length(woman1)-2
+v
+
+a = (length(woman1)-1)*var(woman1)+(length(woman2)-1)*var(woman2)
+a
+b = length(woman1)+length(woman1)-2
+b
+Sp2 = a/b
+Sp2 
+
+# rejection region is t > 1.8595 
+print(qt(0.95,df=v))
+
+# 5.742> 1.8595 ,reject H0
+
+
+```
+
+
+```{r , class.source = c("numCode","r","numberLines")}
+year = c(101,102,103,104,105)
+man1 = c(1219,1355,1323,1379,1340)
+
+
+plot(x=seq(from=101,to=105,by=1),y=man1,main="101-105年男性國人AIDS發病人數分布圖",xlab="年分",ylab="人數",pch=5,col="royalblue",ylim=c(500,1400))
+legend("bottomright",pch=5,col=c("royalblue"),legend=c("man"))
+```
+
+```{r , class.source = c("numCode","r","numberLines")}
+year = c(106,107,108,109,110)
+man2 = c(1338,1048,970,765,607)
+
+
+plot(x=seq(from=106,to=110,by=1),y=man2,main="106-110年男性國人AIDS發病人數分布圖",xlab="年分",ylab="人數",pch=5,col="royalblue",ylim=c(500,1400))
+legend("topright",pch=5,col=c("royalblue"),legend=c("man"))
+
+```
+
+
+```{r , class.source = c("numCode","r","numberLines")}
+year = c(101,102,103,104,105)
+woman1 = c(70,75,64,61,72)
+
+
+plot(x=seq(from=101,to=105,by=1),y=woman1,main="101-105年女性國人AIDS發病人數分布圖",xlab="年分",ylab="人數",pch=5,col="red",ylim=c(0,100))
+legend("topright",pch=5,col=c("red"),legend=c("woman"))
+```
+
+```{r , class.source = c("numCode","r","numberLines")}
+year = c(106,107,108,109,110)
+woman2 = c(52,43,35,35,24)
+
+
+plot(x=seq(from=101,to=105,by=1),y=woman2,main="106-110年女性國人AIDS發病人數分布圖",xlab="年分",ylab="人數",pch=5,col="red",ylim=c(0,100))
+legend("topright",pch=5,col=c("red"),legend=c("woman"))
+
+```
